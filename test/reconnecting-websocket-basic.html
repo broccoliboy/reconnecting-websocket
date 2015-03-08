@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>reconnecting-websocket</title>
+
+  <script src="../../webcomponentsjs/webcomponents.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <!-- Step 1: import the element to test -->
+  <link rel="import" href="../reconnecting-websocket.html">
+
+</head>
+<body>
+
+  <reconnecting-websocket id="fixture" url="ws://localhost:8000"></reconnecting-websocket>
+
+  <script>
+    var myEl = document.getElementById('fixture');
+
+    suite('<reconnecting-websocket>', function() {
+
+      test('defines the "url" property', function() {
+        assert.equal(myEl.url, 'ws://localhost:8000');
+      });
+
+    });
+  </script>
+
+</body>
+</html>

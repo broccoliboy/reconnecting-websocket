@@ -1,0 +1,18 @@
+{
+  "name": "reconnecting-websocket",
+  "version": "0.0.1",
+  "keywords": [
+    "websocket",
+	  "reconnecting",
+    "polymer",
+    "web-components"
+  ],
+  "main": "reconnecting-websocket.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^0.5.4",
+    "reconnectingWebsocket": "https://github.com/joewalnes/reconnecting-websocket.git"
+  },
+  "devDependencies": {
+    "web-component-tester": "Polymer/web-component-tester#^2.2.3"
+  }
+}

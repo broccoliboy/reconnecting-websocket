@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>reconnecting-websocket Demo</title>
+    <script src="../../webcomponentsjs/webcomponents.js"></script>
+    <link rel="import" href="../reconnecting-websocket.html">
+  </head>
+  <body unresolved>
+
+    <h1>reconnecting-websocket</h1>
+    <p>Check console log for debug info.</p>
+    <p>Websocket status: <span id="statusSpan"></span></p>
+
+    <reconnecting-websocket url="ws://localhost:8000" debug="true" reconnectDecay="1"></reconnecting-websocket>
+
+  </body>
+  <script>
+
+	var rws = document.querySelector('reconnecting-websocket');
+  var statusSpan = document.querySelector('#statusSpan');
+
+  rws.addEventListener('connecting', updateStatus);
+  rws.addEventListener('open', updateStatus);
+  rws.addEventListener('message', updateStatus);
+  rws.addEventListener('close', updateStatus);
+  rws.addEventListener('error', updateStatus);
+
+  function updateStatus () {
+    console.log('updateing status', rws.status);
+    statusSpan.innerText = rws.status;
+  }
+
+  </script>
+</html>

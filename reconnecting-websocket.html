@@ -1,0 +1,165 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+Element providing a simple polymer element wrapper around the reconnecting-websocket js library: https://github.com/joewalnes/reconnecting-websocket
+
+##### Example
+
+    <reconnecting-websocket address="ws://localhost:8000"></reconnecting-websocket>
+
+@element reconnecting-websocket
+-->
+
+<polymer-element name="reconnecting-websocket" attributes="url protocols debug automaticOpen reconnectInterval maxReconnectInterval reconnectDecay timeoutInterval maxReconnectAttempts" hidden>
+
+	<script src="../reconnectingWebsocket/reconnecting-websocket.js"></script>
+
+	<script>
+
+		Polymer({
+
+      // url
+      // The url you are connecting to.
+      url: "",
+
+      // protocols
+      // Optional string or array of protocols.
+      protocols: "",
+
+      // debug
+      // Whether this instance should log debug messages. Accepts true or false. Default: false.
+      debug: false,
+
+      // automaticOpen
+      // Whether or not the websocket should attempt to connect immediately upon instantiation. The socket can be manually opened or closed at any time using ws.open() and ws.close().
+      automaticOpen: true,
+
+      // reconnectInterval
+      // The number of milliseconds to delay before attempting to reconnect. Accepts integer. Default: 1000.
+      reconnectInterval: 1000,
+
+      // maxReconnectInterval
+      // The maximum number of milliseconds to delay a reconnection attempt. Accepts integer. Default: 30000.
+      maxReconnectInterval: 30000,
+
+      // reconnectDecay
+      // The rate of increase of the reconnect delay. Allows reconnect attempts to back off when problems persist. Accepts integer or float. Default: 1.5.
+      reconnectDecay: 1.5,
+
+      // timeoutInterval
+      // The maximum time in milliseconds to wait for a connection to succeed before closing and retrying. Accepts integer. Default: 2000.
+      timeoutInterval: 2000,
+
+      // maxReconnectAttempts
+      // The maximum number of times to attempt reconnection. 0 for infinite reconnect attempts.
+      maxReconnectAttempts: 0,
+
+			urlChanged: function () {
+
+
+			},
+
+			onConnecting: function () {
+				this.status = 'connecting';
+				this.fire('connecting');
+			},
+
+			onOpen: function () {
+				this.status = 'open';
+				this.fire('open');
+			},
+
+			onMessage: function (e) {
+				this.fire('message', e)
+			},
+
+			onClose: function (e) {
+				this.status = 'closed';
+				this.fire('close');
+			},
+
+      onError: function (e) {
+        //console.error('Websocket error: ', e);
+      },
+
+			send: function(message) {
+				if (this.status == 'open') {
+					this.ws.send(message);
+				}
+			},
+
+			refresh: function () {
+				this.ws.refresh();
+			},
+
+      protocolsChanged: function () {
+        this.ws && (this.ws.protocols = this.protocols);
+      },
+
+      debugChanged: function () {
+        this.ws && (this.ws.debug = this.debug);
+      },
+
+      automaticOpenChanged: function () {
+        this.ws && (this.ws.automaticOpen = this.automaticOpen);
+      },
+
+      reconnectIntervalChanged: function () {
+        this.ws && (this.ws.reconnectInterval = this.reconnectInterval);
+      },
+
+      maxReconnectIntervalChanged: function () {
+        this.ws && (this.ws.maxReconnectInterval = this.maxReconnectInterval);
+      },
+
+      reconnectDecayChanged: function () {
+        this.ws && (this.ws.reconnectDecay = this.reconnectDecay);
+      },
+
+      timeoutIntervalChanged: function () {
+        this.ws && (this.ws.timeoutInterval = this.timeoutInterval);
+      },
+
+      maxReconnectAttemptsChanged: function () {
+        this.ws && (this.ws.maxReconnectAttempts = this.maxReconnectAttempts);
+      },
+
+      ready: function () {
+        this.PolymerReady = true;
+        this.init();
+      },
+
+      init: function () {
+        if (this.url && this.PolymerReady) {
+
+          if (this.ws instanceof ReconnectingWebSocket) {
+            this.ws.close();
+            this.ws.refresh();
+          }
+
+          this.ws = new ReconnectingWebSocket(this.url, this.protocols, {
+            debug: this.debug,
+            automaticOpen: this.automaticOpen,
+            reconnectInterval: this.reconnectInterval,
+            maxReconnectInterval: this.maxReconnectInterval,
+            reconnectDecay: this.reconnectDecay,
+            timeoutInterval: this.timeoutInterval,
+            maxReconnectAttempts: this.maxReconnectAttempts
+          });
+
+          this.ws.addEventListener('connecting', this.onConnecting.bind(this));
+          this.ws.addEventListener('open', this.onOpen.bind(this));
+          this.ws.addEventListener('message', this.onMessage.bind(this));
+          this.ws.addEventListener('close', this.onClose.bind(this));
+          this.ws.addEventListener('error', this.onError.bind(this));
+
+//          this.status = 'connecting';
+
+        }
+      }
+
+		});
+
+	</script>
+
+</polymer-element>
