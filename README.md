@@ -1,7 +1,7 @@
 # reconnecting-websocket
 
-See the [component page](http://broccoliboy.github.io/reconnecting-websocket) for more information.
+Element providing a simple polymer wrapper around the [reconnecting-websocket.js library](https://github.com/joewalnes/reconnecting-websocket).
 
-## Getting Started
+## Installation
 
-We've put together a [guide for reconnecting-websocket](http://www.polymer-project.org/docs/start/reusableelements.html) to help get you rolling.
+`bower install --save broccoliboy/reconnecting-websocket`
