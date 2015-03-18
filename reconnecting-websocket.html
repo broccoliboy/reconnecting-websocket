@@ -10,7 +10,7 @@ Element providing a simple polymer element wrapper around the reconnecting-webso
 @element reconnecting-websocket
 -->
 
-<polymer-element name="reconnecting-websocket" attributes="url protocols debug automaticOpen reconnectInterval maxReconnectInterval reconnectDecay timeoutInterval maxReconnectAttempts" hidden>
+<polymer-element name="reconnecting-websocket" attributes="url status protocols debug automaticOpen reconnectInterval maxReconnectInterval reconnectDecay timeoutInterval maxReconnectAttempts" hidden>
 
 	<script src="../reconnectingWebsocket/reconnecting-websocket.js"></script>
 
@@ -54,11 +54,6 @@ Element providing a simple polymer element wrapper around the reconnecting-webso
       // The maximum number of times to attempt reconnection. 0 for infinite reconnect attempts.
       maxReconnectAttempts: 0,
 
-			urlChanged: function () {
-
-
-			},
-
 			onConnecting: function () {
 				this.status = 'connecting';
 				this.fire('connecting');
@@ -92,8 +87,12 @@ Element providing a simple polymer element wrapper around the reconnecting-webso
 				this.ws.refresh();
 			},
 
+      urlChanged: function () {
+        this.init();
+      },
+
       protocolsChanged: function () {
-        this.ws && (this.ws.protocols = this.protocols);
+        this.init();
       },
 
       debugChanged: function () {
@@ -152,8 +151,6 @@ Element providing a simple polymer element wrapper around the reconnecting-webso
           this.ws.addEventListener('message', this.onMessage.bind(this));
           this.ws.addEventListener('close', this.onClose.bind(this));
           this.ws.addEventListener('error', this.onError.bind(this));
-
-//          this.status = 'connecting';
 
         }
       }
