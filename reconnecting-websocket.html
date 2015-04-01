@@ -12,11 +12,11 @@ Element providing a simple polymer element wrapper around the reconnecting-webso
 
 <polymer-element name="reconnecting-websocket" attributes="url status protocols debug automaticOpen reconnectInterval maxReconnectInterval reconnectDecay timeoutInterval maxReconnectAttempts" hidden>
 
-	<script src="../reconnectingWebsocket/reconnecting-websocket.js"></script>
+  <script src="../reconnectingWebsocket/reconnecting-websocket.js"></script>
 
-	<script>
+  <script>
 
-		Polymer({
+    Polymer({
 
       // url
       // The url you are connecting to.
@@ -54,38 +54,38 @@ Element providing a simple polymer element wrapper around the reconnecting-webso
       // The maximum number of times to attempt reconnection. 0 for infinite reconnect attempts.
       maxReconnectAttempts: 0,
 
-			onConnecting: function () {
-				this.status = 'connecting';
-				this.fire('connecting');
-			},
+      onConnecting: function () {
+        this.status = 'connecting';
+        this.fire('connecting');
+      },
 
-			onOpen: function () {
-				this.status = 'open';
-				this.fire('open');
-			},
+      onOpen: function () {
+        this.status = 'open';
+        this.fire('open');
+      },
 
-			onMessage: function (e) {
-				this.fire('message', e)
-			},
+      onMessage: function (e) {
+        this.fire('message', e)
+      },
 
-			onClose: function (e) {
-				this.status = 'closed';
-				this.fire('close');
-			},
+      onClose: function (e) {
+        this.status = 'closed';
+        this.fire('close');
+      },
 
       onError: function (e) {
         //console.error('Websocket error: ', e);
       },
 
-			send: function(message) {
-				if (this.status == 'open') {
-					this.ws.send(message);
-				}
-			},
+      send: function(message) {
+        if (this.status == 'open') {
+          this.ws.send(message);
+        }
+      },
 
-			refresh: function () {
-				this.ws.refresh();
-			},
+      refresh: function () {
+        this.ws && this.ws.refresh();
+      },
 
       urlChanged: function () {
         this.init();
@@ -155,8 +155,8 @@ Element providing a simple polymer element wrapper around the reconnecting-webso
         }
       }
 
-		});
+    });
 
-	</script>
+  </script>
 
 </polymer-element>
